@@ -86,43 +86,40 @@ class Learner:
             print("</tr>")
         print("</tbody>")                                    
         print("</table>")
+    def learn(self, exs=[]):
+        print("<html>")
+        self.print_table()
+        print("<hr/>")
+        while True:
+            self.update()
+            self.print_table()
+            print("status:%s" % self.status)
+            print("<hr/>")
+            if self.status == "ok":
+                if len(exs) == 0:
+                    break
+                else:
+                    ex = exs.pop(0)
+                    for i in range(len(ex)):
+                        prefix = ex[:i]
+                        if self.rows.count(prefix) == 0:
+                            print("<p>Adding %s into the table.</p>" % prefix)
+                            self.rows.append(prefix)
+                        self.table = self.make_table(self.rows, self.columns)
+                    print("<hr/>")
+        print("</html>")
+
+        
 
 
 def teacher_even(s):
     return (s.count("a")%2 == 0 and s.count("b")%2 == 0)
 
 exs = ["ab","abab"]
-                
-print("<html>")
+
+
 l = Learner(teacher_even)
-l.print_table()
-print("<hr/>")
-
-
-    
-while True:
-    l.update()
-    l.print_table()
-    print("status:%s" % l.status)
-    print("<hr/>")
-    if l.status == "ok":
-        if len(exs) == 0:
-            break
-        else:
-            ex = exs.pop(0)
-            for i in range(len(ex)):
-                prefix = ex[:i]
-                if l.rows.count(prefix) == 0:
-                    print("<p>Adding %s into the table.</p>" % prefix)
-                    l.rows.append(prefix)
-            l.table = l.make_table(l.rows, l.columns)
-            print("<hr/>")
-                
-                
-
-
-print("</html>")
-    
+l.learn(exs)    
 
         
         
