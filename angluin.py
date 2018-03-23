@@ -25,7 +25,7 @@ class Learner:
                 # not closed
                 self.rows.append(rt)
                 self.table = self.make_table(self.rows, self.columns)
-                self.status = "not closed"
+                self.status = "not closed (%s; %s)" % (r, rt)
                 return False
         # closed
         # is consistent?
@@ -37,7 +37,7 @@ class Learner:
                             #incosnsitent!
                             newcol = [c+a for c in self.columns]
                             self.columns += newcol
-                            self.status = "not consistent"
+                            self.status = "not consistent (%s, %s; %s)" % (self.rows[i], self.rows[j], a)
                             self.table = self.make_table(self.rows, self.columns)
                             return False
         self.status = "ok"
