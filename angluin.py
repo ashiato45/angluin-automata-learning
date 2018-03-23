@@ -110,8 +110,11 @@ while True:
             break
         else:
             ex = exs.pop(0)
-            print("Adding %s into the table." % ex)
-            l.rows.append(ex)
+            for i in range(len(ex)):
+                prefix = ex[:i]
+                if l.rows.count(prefix) == 0:
+                    print("<p>Adding %s into the table.</p>" % prefix)
+                    l.rows.append(prefix)
             l.table = l.make_table(l.rows, l.columns)
             print("<hr/>")
                 
