@@ -32,12 +32,13 @@ class Learner:
         for i in range(len(self.rows)):
             for j in range(i+1, len(self.rows)):
                 if self.get_row(self.table, self.rows[i]) == self.get_row(self.table, self.rows[j]):
-                    for a in sef.alphabets:
-                        if get_row(table_trans, self.rows[i]+a) != get_row(table_trans, self.rows[j]+a):
+                    for a in self.alphabets:
+                        if self.get_row(table_trans, self.rows[i]+a) != self.get_row(table_trans, self.rows[j]+a):
                             #incosnsitent!
                             newcol = [c+a for c in self.columns]
                             self.columns += newcol
                             self.status = "not consistent"
+                            self.table = self.make_table(self.rows, self.columns)
                             return False
         self.status = "ok"
         return True
@@ -47,8 +48,6 @@ class Learner:
             for col in columns_:
                 t[(row, col)] = self.teacher(row + col)
         return t
-    def make_automaton(self):
-        def f(
     def print_table(self):
         rows_trans = []
         for r in self.rows:
@@ -92,7 +91,7 @@ class Learner:
 def teacher_even(s):
     return (s.count("a")%2 == 0 and s.count("b")%2 == 0)
 
-
+exs = ["ab","abab"]
                 
 print("<html>")
 l = Learner(teacher_even)
@@ -101,9 +100,21 @@ print("<hr/>")
 
 
     
-while not l.update():
+while True:
+    l.update()
     l.print_table()
+    print("status:%s" % l.status)
     print("<hr/>")
+    if l.status == "ok":
+        if len(exs) == 0:
+            break
+        else:
+            ex = exs.pop(0)
+            print("Adding %s into the table." % ex)
+            l.rows.append(ex)
+            l.table = l.make_table(l.rows, l.columns)
+            print("<hr/>")
+                
                 
 
 
