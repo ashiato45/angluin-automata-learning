@@ -1,3 +1,5 @@
+import graphviz
+
 class Learner:
     def __init__(self, t, a="ab"):
         self.teacher = t
@@ -8,11 +10,16 @@ class Learner:
         self.status = "init"
     def get_row(self, t, r):
         return [t[(r, c)] for c in self.columns]
-    def update(self):
+    def get_row_as_str(self, t, r):
+        return "".join(["1" if x else "0" for x in self.get_row(t, r)])
+    def make_rows_trans(self):
         rows_trans = []
         for r in self.rows:
             for a in self.alphabets:
                 rows_trans.append(r + a)
+        return rows_trans
+    def update(self):
+        rows_trans = self.make_rows_trans()
         table_trans = self.make_table(rows_trans, self.columns)
         # is closed?
         for rt in rows_trans:
@@ -108,6 +115,37 @@ class Learner:
                         self.table = self.make_table(self.rows, self.columns)
                     print("<hr/>")
         print("</html>")
+    def draw(self):
+        d = graphviz.Digraph()
+        starting = [self.get_row_as_str(self.table, "")]
+        accepting = []
+        for i in self.rows:
+            if self.table[(i, "")]:
+                accepting.append(self.get_row_as_str(self.table, i))
+        def f(s):
+            ss = s
+            if s in starting:
+                ss += "S"
+            if s in accepting:
+                ss += "A"
+            return ss
+        for i in self.rows:
+            d.node(f(self.get_row_as_str(self.table, i)))
+        done = set()
+        for i in self.rows:
+            src_str = f(self.get_row_as_str(self.table, i))
+            rows_trans = self.make_rows_trans()
+            next_table = self.make_table(rows_trans, self.columns)
+            for a in self.alphabets:
+                dest = i + a
+                dest_str = f(self.get_row_as_str(next_table, dest))
+                if (src_str, dest_str, a) in done:
+                    continue
+                d.edge(src_str, dest_str, a)
+                done.add((src_str, dest_str, a))
+                # print("hoge")
+        return d
+
 
         
 
@@ -115,11 +153,13 @@ class Learner:
 def teacher_even(s):
     return (s.count("a")%2 == 0 and s.count("b")%2 == 0)
 
-exs = ["ab","abab"]
+
+if __name__ == "__main__":
+    exs = ["ab","abab"]
 
 
-l = Learner(teacher_even)
-l.learn(exs)    
+    l = Learner(teacher_even)
+    l.learn(exs)    
 
-        
-        
+            
+            
