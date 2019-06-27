@@ -14,6 +14,9 @@ An implementation of Angluin's automata learning method based on the following p
 >https://doi.org/10.1016/0890-5401(87)90052-6.
 >(http://www.sciencedirect.com/science/article/pii/0890540187900526)
 
+## Google Colab version is available!
+Try it online: https://colab.research.google.com/drive/1zdFtXE1UpVJKmEFIWzaPh5ow8PS7Idf4#scrollTo=gt15JQ5gSd4m
+
 ## Usage
 Please rewrite the bottom of angluin.py
 1. Make a _teacher_ function that takes a string that consists of "a" and "b" and returns True or False like:
