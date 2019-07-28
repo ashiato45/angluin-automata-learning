@@ -11,7 +11,7 @@ class Learner:
     def get_row(self, t, r):
         return [t[(r, c)] for c in self.columns]
     def get_row_as_str(self, t, r):
-        return "".join(["1" if x else "0" for x in self.get_row(t, r)])
+        return "".join(self.get_row(t, r))
     def make_rows_trans(self):
         rows_trans = []
         for r in self.rows:
@@ -151,7 +151,7 @@ class Learner:
 
 
 def teacher_even(s):
-    return (s.count("a")%2 == 0 and s.count("b")%2 == 0)
+    return "1" if (s.count("a")%2 == 0 and s.count("b")%2 == 0) else "0"
 
 
 if __name__ == "__main__":
