@@ -119,15 +119,10 @@ class Learner:
         d = graphviz.Digraph()
         starting = [self.get_row_as_str(self.table, "")]
         accepting = []
-        for i in self.rows:
-            if self.table[(i, "")]:
-                accepting.append(self.get_row_as_str(self.table, i))
         def f(s):
             ss = s
             if s in starting:
                 ss += "S"
-            if s in accepting:
-                ss += "A"
             return ss
         for i in self.rows:
             d.node(f(self.get_row_as_str(self.table, i)))
