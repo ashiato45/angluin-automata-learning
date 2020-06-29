@@ -42,7 +42,7 @@ class Learner:
                     for a in self.alphabets:
                         if self.get_row(table_trans, self.rows[i]+a) != self.get_row(table_trans, self.rows[j]+a):
                             #incosnsitent!
-                            newcol = [c+a for c in self.columns]
+                            newcol = [a+c for c in self.columns]
                             self.columns += newcol
                             self.status = "not consistent (%s, %s; %s)" % (self.rows[i], self.rows[j], a)
                             self.table = self.make_table(self.rows, self.columns)
